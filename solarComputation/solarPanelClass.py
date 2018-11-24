@@ -69,14 +69,3 @@ class solarPanel:
     def get_monthlySaving(self):
         return -self.investmentPrice/(12.0*self._lifeTime) + (self.elecPower*3600*24*30.4) * (self._pricePer_kWh/(1000*3600))# - investment + (Energy) * ($/Energie)
 
-# sp = solarPanel('1652 Culpepper Dr, Petaluma, CA 94954, USA',16)
-#
-# print("meanLightIntensity = "+str(sp.meanLightIntensity)+"W/m^2 (mean over 24h)")
-# print("investmentPrice    = "+str(sp.investmentPrice)+"$")
-# print("elecPower          = "+str(sp.elecPower)+"W (mean over 24h)")
-# print("monthlySaving      = "+str(sp.monthlySaving)+"$")
-#
-#
-# geolocator = Nominatim(user_agent="specify_your_app_name_here")
-# location = geolocator.geocode('1652 Culpepper Dr, Petaluma, CA 94954, USA')
-# location = geolocator.reverse("52.509669, 13.376294")
