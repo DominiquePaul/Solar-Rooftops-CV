@@ -33,6 +33,13 @@ class solarPanel:
         self.investmentPrice = self.get_investmentPrice()
         self.monthlySaving = self.get_monthlySaving()
 
+    def print_report(self):
+        print("-----------------")
+        print("meanLightIntensity = " + str(self.meanLightIntensity) + "W/m^2 (mean over 24h)")
+        print("investmentPrice    = " + str(self.investmentPrice) + "$")
+        print("elecPower          = " + str(self.elecPower) + "W (mean over 24h)")
+        print("monthlySaving      = " + str(self.monthlySaving) + "$")
+
     def get_pricePer_kWh(self):
         attributes = 'zipcode='+str(self._location.address.split(',')[-2])
         url = 'https://us-zipcode.api.smartystreets.com/lookup?auth-id=cde64982-c946-f37d-ea45-6b9510262e46&auth-token=CW7KGE0HpdLdh0k4ajV8&' + attributes
