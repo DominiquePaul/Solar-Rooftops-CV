@@ -3,8 +3,10 @@ from flask import make_response
 import os.path
 import requests as r
 import cv2
-from backend.maps_query import gmaps_image
+from backend.utils import image_to_string
+from backend.maps_query import gmaps_image, gmaps_area
 from backend.segmentation import image_segmentation
+from backend.solarPanelClass import solarPanel
 import base64
 from flask_cors import CORS
 
@@ -15,7 +17,7 @@ DIFFBOT_TOKEN = '--'
 
 @app.route("/")
 def home():
-    return "hi"
+    return render_template("index.html", title = 'Solar Rooftops')
 
 @app.route("/index")
 def index():
@@ -27,19 +29,22 @@ def run_address():
         address = request.form['address']
 
         image = gmaps_image(address)
+        sat_buff = image_to_string(image)
 
-        retval, buffer = cv2.imencode('.png', image)
-        sat_buff = str(base64.b64encode(buffer))[2:-1]
+        segmented_image, area_percent = image_segmentation(image)
+        area_in_square_meters = gmaps_area(address)*area_percent
+        seg_buff = image_to_string(segmented_image)
 
-        segmented_image = image_segmentation(image)
+        # Actually use the solar panel information
+        solar_panel = solarPanel(address, 0.25*area_in_square_meters)
+        mean_light_intensity = solar_panel.meanLightIntensity
+        montly_savings = solar_panel.monthlySaving
 
-        retval, buffer = cv2.imencode('.png', segmented_image)
-        seg_buff = str(base64.b64encode(buffer))[2:-1]
-
-        resp = make_response('{"text" : "Looking for address: ' + address + '", "sat_img" : "' + sat_buff + '", "seg_img" : "' + seg_buff + '"}')
+        resp = make_response('{"address" : "' + address + '", "sat_img" : "' + sat_buff + '", "seg_img" : "' + seg_buff + \
+            '", "area" : "' + "%.2f" % area_in_square_meters + '", "mean_light_intensity" : "' +  "%.2f" % mean_light_intensity + \
+            '", "montly_savings" : "' + "%.2f" % montly_savings + '"}')
         resp.headers['Content-Type'] = "application/json"
         return resp
-        #return render_template('index.html', message='')
 
 if __name__ == "__main__":
     app.run(debug = True)

@@ -1,0 +1,6 @@
+flask>=1.0.2
+requests>=2.20.1
+sklearn>=0.0
+scikit-image>=0.0
+pandas>=0.23.4
+geopy>=1.17.0

@@ -3,7 +3,7 @@ import urllib.request
 from io import BytesIO
 import numpy as np
 import random as rng
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 from skimage.util import img_as_float
 
 def kmeans_fast(features, k, num_iters=100):
@@ -133,6 +133,8 @@ def image_segmentation(img):
 
     #     img = res2
 
+    # return img, 0.06
+
     n_k = 25
 
     # Fourth method
@@ -161,16 +163,27 @@ def image_segmentation(img):
     features = np.reshape(new_image, [H*W, C+3], order='A')
 
     assignments = kmeans_fast(features, n_k, num_iters=100)
+    # assignments = DBSCAN(eps=1, min_samples=(H*W)/30).fit(features).labels_
+
+    # import pdb
+    # pdb.set_trace()
 
     segments = assignments.reshape((H, W))
 
     main_cluster = segments[int(H/2), int(W/2)]
 
+    # rgb_segments = segments*255/(n_k - 1)
+
     segments[segments == main_cluster] = 255
     segments[segments != 255] = 0
+
+    segments = cv.blur(segments,(3,3))
+    segments[segments != 255] = 0
+    segments = cv.blur(segments,(4,4))
+    segments[segments != 255] = 0
+
+    area_percent = np.sum(segments)/(255*H*W)
     rgb_segments = np.stack([segments, segments, segments], axis=-1)
     rgb_segments = np.clip(rgb_segments + img, 0, 255)
 
-    segments = segments*(255/(n_k-1))
-
-    return rgb_segments
+    return rgb_segments, area_percent
