@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solar Rooftops</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body id="body">
+
+<div id="main_content">
+    <h1 id="title">Solar Rooftops</h1>
+
+    <form action="javascript:runAddress()" method="POST" class="input-group">
+        <input id="address_input" type="text" class="form-control" name="address_input" placeholder="Address">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Calculate</button>
+        </span>
+    </form>
+    <h2 id='other_text'>This is it</h2>
+    <img src="" id='the_image'>
+    <img src="" id='segmented_image'>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    function unpack(str) {
+        var bytes = [];
+        for(var i = 0, n = str.length; i < n; i++) {
+            var char = str.charCodeAt(i);
+            bytes.push(char >>> 8, char & 0xFF);
+        }
+        return bytes;
+    }
+    function runPyScript(address) {
+        var jqXHR = $.ajax({
+            type: "POST",
+            url: "run_address",
+            async: false,
+            data: {'address': address}
+        });
+        return jqXHR.responseText;
+    }
+    function runAddress() {
+        result = runPyScript(document.getElementById("address_input").value);
+        var returned_values = JSON.parse(result);
+        document.getElementById("other_text").innerHTML = returned_values.text;
+        document.getElementById("the_image").src = "data:image/png;base64," + returned_values.sat_img;
+        document.getElementById("the_image").width = "500px"
+        document.getElementById("the_image").height = "auto"
+        document.getElementById("segmented_image").src = "data:image/png;base64," + returned_values.seg_img;
+        document.getElementById("segmented_image").width = "500px"
+        document.getElementById("segmented_image").height = "auto"
+    }
+</script>
+</html>

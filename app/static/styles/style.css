@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto:100');
+
+html {
+	font-family: 'Open Sans', sans-serif;
+}
+
+body {
+	transition: all .5s;
+}
+
+#main_content {
+	width: 70%;
+	margin: auto;
+	padding: auto;
+	text-align: center;
+}
+
+#title {
+	font-family: 'Roboto', sans-serif;
+}
+
+img {
+	width: 500px;
+	height: auto;
+	padding: 10px;
+}
