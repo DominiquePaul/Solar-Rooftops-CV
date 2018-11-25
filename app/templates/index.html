@@ -22,6 +22,8 @@
     <h2 id='other_text'>This is it</h2>
     <img src="" id='the_image'>
     <img src="" id='segmented_image'>
+    <p>You have a roof area of approximately <span id="area">0</span> square meters</p>
+    <p>Possible savings: <span id="savings">0</span>$</p>
 </div>
 
 </body>
@@ -48,6 +50,8 @@
         result = runPyScript(document.getElementById("address_input").value);
         var returned_values = JSON.parse(result);
         document.getElementById("other_text").innerHTML = returned_values.text;
+        document.getElementById("area").innerHTML = returned_values.area;
+        document.getElementById("savings").innerHTML = returned_values.montly_savings;
         document.getElementById("the_image").src = "data:image/png;base64," + returned_values.sat_img;
         document.getElementById("the_image").width = "500px"
         document.getElementById("the_image").height = "auto"
