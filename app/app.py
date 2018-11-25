@@ -15,7 +15,7 @@ DIFFBOT_TOKEN = '--'
 
 @app.route("/")
 def home():
-    return "hi"
+    return render_template("index.html", title = 'Solar Rooftops')
 
 @app.route("/index")
 def index():
@@ -38,9 +38,9 @@ def run_address():
         mean_light_intensity = solar_panel.meanLightIntensity
         montly_savings = solar_panel.monthlySaving
 
-        resp = make_response('{"text" : "Looking for address: ' + address + '", "sat_img" : "' + sat_buff + '", "seg_img" : "' + seg_buff + \
-            '", "area" : "' + str(area_in_square_meters) + '", "mean_light_intensity" : "' + str(mean_light_intensity) + \
-            '", "montly_savings" : "' + str(montly_savings) + '"}')
+        resp = make_response('{"address" : "' + address + '", "sat_img" : "' + sat_buff + '", "seg_img" : "' + seg_buff + \
+            '", "area" : "' + "%.2f" % area_in_square_meters + '", "mean_light_intensity" : "' +  "%.2f" % mean_light_intensity + \
+            '", "montly_savings" : "' + "%.2f" % montly_savings + '"}')
         resp.headers['Content-Type'] = "application/json"
         return resp
 

@@ -6,9 +6,13 @@ html {
 
 body {
 	transition: all .5s;
+	background: url('../img/background.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #main_content {
+	z-index: 1;
 	width: 70%;
 	margin: auto;
 	padding: auto;
@@ -16,11 +20,121 @@ body {
 }
 
 #title {
+	font-size: 80px;
+	color: white;
 	font-family: 'Roboto', sans-serif;
+	padding: 80px;
 }
 
 img {
-	width: 500px;
-	height: auto;
+	border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+	height: 400px;
+	width: auto;
+	margin: 20px;
+}
+
+#results {
+	z-index: 3;
+	background-color: white;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100vh;
+	width: 100%;
+	text-align: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: all .5s;
+}
+
+.input-group {
+	margin-top: 80px;
+	font-size: 20px;
+}
+
+.btn {
+	font-size: 20px;
+}
+
+#address_input {
+	padding: 20px;
+	padding-left: 10px;
+	font-size: 20px;
+}
+
+#loading_results {
+	font-family: 'Roboto', sans-serif;
+	font-size: 100px;
+	z-index: 2;
+	background-color: white;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100vh;
+	width: 100%;
+	text-align: center;
+	visibility: hidden;
+	opacity: 0;
+	transition: all .5s;
+}
+
+#loading_results h2 {
+	margin-top: 45vh;
+}
+
+#results #close {
+	position: absolute;
+	top: 0px;
+	left: 30px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 70px;
+	text-decoration: none;
+	color: #DCDCDC;
+	transition: all .5s;
+}
+
+#results h1 {
+	font-size: 50px;
+}
+
+#close:hover {
+	color: gray;
+}
+
+#results_inner {
+	text-align: left;
+	padding-left: 75px;
+}
+
+#other_text {
 	padding: 10px;
+	font-size: 40px;
+	font-family: 'Roboto', sans-serif;
+}
+
+#general_info {
+	padding-left: 10px; 
+	text-align: left;
+	padding-top: 10px;
+}
+
+#general_info h5 {
+	font-size: 16px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	color: gray;
+}
+
+#general_info span {
+	color: black;
+}
+
+#savings {
+	text-decoration: bold;
+}
+
+#share_info {
+	color: light-gray;
 }
