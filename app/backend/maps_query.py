@@ -18,6 +18,7 @@ def gmaps_area(location, zoom=19, size=[300,300]):
     response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyCMCczdtg3LgNkbp-vEMLkhtNKjMkdifVI")
     resp_json_payload = response.json()
     lat = resp_json_payload['results'][0]['geometry']['location']['lat']
+    lon = resp_json_payload['results'][0]['geometry']['location']['lng']
     metersPerPx = 156543.03392 * math.cos(lat*math.pi/180)/math.pow(2,zoom)
     area = size[0]*size[1]*metersPerPx**2
-    return area #in meters squared
+    return area, lat, lon #in meters squared

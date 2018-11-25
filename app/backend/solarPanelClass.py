@@ -8,7 +8,7 @@ import numpy as np
 import sys, os
 
 class solarPanel:
-    def __init__(self, address, area):
+    def __init__(self, address, lat, lon, area):
         # input parameters
         self._address = address
         self._area = area
@@ -21,10 +21,12 @@ class solarPanel:
         # self._pricePer_kWh = 0.15 # $/kWh ref. https://www.eia.gov/electricity/state/
 
         # derived parameters
-        self._geolocator = Nominatim(user_agent="specify_your_app_name_here")
-        self._location = self._geolocator.geocode(address)
-        self._lat = self._location.latitude
-        self._lon = self._location.longitude
+        # self._geolocator = Nominatim(user_agent="specify_your_app_name_here")
+        # self._location = self._geolocator.geocode(address)
+        # self._lat = self._location.latitude
+        # self._lon = self._location.longitude
+        self._lat = lat
+        self._lon = lon
 
         # calculated parameters
         self._pricePer_kWh = self.get_pricePer_kWh()  # $/kWh ref. https://www.eia.gov/electricity/state/
@@ -85,6 +87,10 @@ class solarPanel:
         return r['series'][0]['data'][0][1]/100.0
 
     def get_meanLightIntensity(self):
+        # rough estimate using an interpolation in the latitude
+        return -12.26*self._lat + 673.17
+
+        # actually access the value (problems with API)
         attributes = 'ghi'  # ,dhi,dni,surface_air_temperature_nwp,solar_zenith_angle'
         interval = '60'  # or '30'
         api_key = '0cZ4RHQtbyTkdyjVfDvlcHi0nTVXmEXDzkQVC0ph'
