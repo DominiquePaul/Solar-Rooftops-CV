@@ -30,11 +30,12 @@ def run_address():
         sat_buff = image_to_string(image)
 
         segmented_image, area_percent = image_segmentation(image)
-        area_in_square_meters = gmaps_area(address)*area_percent
+        total_area, latitude, longitude = gmaps_area(address)
+        area_in_square_meters = total_area*area_percent
         seg_buff = image_to_string(segmented_image)
 
         # Actually use the solar panel information
-        solar_panel = solarPanel(address, 0.25*area_in_square_meters)
+        solar_panel = solarPanel(address, latitude, longitude, 0.25*area_in_square_meters)
         mean_light_intensity = solar_panel.meanLightIntensity
         montly_savings = solar_panel.monthlySaving
 

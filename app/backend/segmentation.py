@@ -56,6 +56,18 @@ def kmeans_fast(features, k, num_iters=100):
 
     return assignments
 
+def bm0(img,n,m):
+   for i in range(n):
+       img = cv.blur(img, ((m, m)))
+       img[img != 255] = 0
+   return img
+
+def bm1(img,n,m):
+   for i in range(n):
+       img = cv.blur(img, ((m, m)))
+       img[img != 0] = 255
+   return img
+
 def image_segmentation(img):
     # First method
 
@@ -177,10 +189,16 @@ def image_segmentation(img):
     segments[segments == main_cluster] = 255
     segments[segments != 255] = 0
 
+    segments = cv.blur(segments,(2,2))
+    segments[segments != 255] = 0
     segments = cv.blur(segments,(3,3))
     segments[segments != 255] = 0
-    segments = cv.blur(segments,(4,4))
-    segments[segments != 255] = 0
+
+    # segments = bm0(segments,5,2)
+    # segments = bm1(segments,7,2)
+
+    # segments = bm0(segments,3,3)
+    # segments = bm1(segments,4,3)
 
     area_percent = np.sum(segments)/(255*H*W)
     rgb_segments = np.stack([segments, segments, segments], axis=-1)
