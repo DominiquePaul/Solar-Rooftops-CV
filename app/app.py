@@ -8,10 +8,8 @@ from backend.maps_query import gmaps_image, gmaps_area
 from backend.segmentation import image_segmentation
 from backend.solarPanelClass import solarPanel
 import base64
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 NEWS_API_KEY = '--'
 DIFFBOT_TOKEN = '--'
 
